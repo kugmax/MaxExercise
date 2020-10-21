@@ -1,6 +1,7 @@
 package com.kugmax.maxexercise
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class FirstFragment : Fragment() {
+    private val TAG: String = "FirstFragment_";
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +28,12 @@ class FirstFragment : Fragment() {
 
         view.findViewById<Button>(R.id.button_first).setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
+
+        view.findViewById<Button>(R.id.button_takePhoto).setOnClickListener {
+            Log.i(TAG, "is activity == null ${activity == null} ")
+            Log.i(TAG, "is activity is MainActivity ${activity is MainActivity} ")
+            (activity as MainActivity).dispatchTakePictureIntent()
         }
     }
 }
