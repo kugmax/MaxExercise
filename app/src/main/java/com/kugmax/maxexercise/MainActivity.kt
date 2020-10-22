@@ -19,6 +19,8 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private val TAG: String = "MainActivity"
 
+    lateinit var currentPhotoPath: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,8 +47,6 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-    lateinit var currentPhotoPath: String
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
@@ -96,5 +96,34 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun logPhotos() {
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        System.out.println("### storageDir $storageDir")
+        storageDir?.also { it.list().forEach { x -> System.out.println(x) } }
+    }
+
+    fun getPhotoUri() : Uri {
+        lateinit var result: Uri
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+        System.out.println("### storageDir $storageDir")
+
+        val files = storageDir?.list()
+        if (!files.isNullOrEmpty()) {
+            val photoFile = File(storageDir.path + "/" + files[0])
+            System.out.println("### photoFile $photoFile")
+
+            photoFile?.also {
+                System.out.println("### before uri $it")
+                result = FileProvider.getUriForFile(
+                            this,
+                            "com.kugmax.maxexercise.fileprovider",
+                            it
+                    )
+                }
+        }
+        return result
     }
 }

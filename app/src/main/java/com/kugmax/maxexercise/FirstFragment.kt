@@ -31,9 +31,10 @@ class FirstFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.button_takePhoto).setOnClickListener {
-            Log.i(TAG, "is activity == null ${activity == null} ")
-            Log.i(TAG, "is activity is MainActivity ${activity is MainActivity} ")
             (activity as MainActivity).dispatchTakePictureIntent()
+        }
+        view.findViewById<Button>(R.id.button_photos).setOnClickListener {
+            (activity as MainActivity).logPhotos()
         }
     }
 }
